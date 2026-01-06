@@ -1,6 +1,7 @@
 import turtle
 import math
 
+
 class Rabbit(turtle.Turtle):
     def __init__(self):
         super().__init__()

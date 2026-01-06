@@ -1,13 +1,16 @@
 import ast
-import astor 
+import astor
+
 
 def find_screen_variable_name(code):
     tree = ast.parse(code)
     for node in ast.walk(tree):
         if isinstance(node, ast.Assign):
             # Check if the right-hand side is a call to turtle.Screen()
-            if isinstance(node.value, ast.Call) and isinstance(node.value.func, ast.Attribute):
-                if node.value.func.attr == 'Screen':
+            if isinstance(node.value, ast.Call) and isinstance(
+                node.value.func, ast.Attribute
+            ):
+                if node.value.func.attr == "Screen":
                     # Return the variable name (left-hand side of the assignment)
                     if isinstance(node.targets[0], ast.Name):
                         return node.targets[0].id
@@ -22,10 +25,12 @@ class TurtleModifier(ast.NodeTransformer):
     def visit_Import(self, node):
         # Handle import statements
         for alias in node.names:
-            if alias.name == 'turtle':
+            if alias.name == "turtle":
                 # Insert pensize and hideturtle commands for procedural usage
-                pensize_command = self.create_turtle_command('turtle', 'pensize', self.pen_size)
-                hideturtle_command = self.create_turtle_command('turtle', 'hideturtle')
+                pensize_command = self.create_turtle_command(
+                    "turtle", "pensize", self.pen_size
+                )
+                hideturtle_command = self.create_turtle_command("turtle", "hideturtle")
                 return [node, pensize_command, hideturtle_command]
         return node
 
@@ -33,11 +38,19 @@ class TurtleModifier(ast.NodeTransformer):
         # Handle assignments
         if isinstance(node.value, ast.Call):
             # Check for Turtle object creation
-            if ((isinstance(node.value.func, ast.Name) and node.value.func.id == 'Turtle') or
-                (isinstance(node.value.func, ast.Attribute) and node.value.func.attr == 'Turtle')):
+            if (
+                isinstance(node.value.func, ast.Name) and node.value.func.id == "Turtle"
+            ) or (
+                isinstance(node.value.func, ast.Attribute)
+                and node.value.func.attr == "Turtle"
+            ):
                 turtle_var_name = node.targets[0].id
-                pensize_command = self.create_turtle_command(turtle_var_name, 'pensize', self.pen_size)
-                hideturtle_command = self.create_turtle_command(turtle_var_name, 'hideturtle')
+                pensize_command = self.create_turtle_command(
+                    turtle_var_name, "pensize", self.pen_size
+                )
+                hideturtle_command = self.create_turtle_command(
+                    turtle_var_name, "hideturtle"
+                )
                 return [node, pensize_command, hideturtle_command]
         return node
 
@@ -50,10 +63,10 @@ class TurtleModifier(ast.NodeTransformer):
                 func=ast.Attribute(
                     value=ast.Name(id=turtle_name, ctx=ast.Load()),
                     attr=command,
-                    ctx=ast.Load()
+                    ctx=ast.Load(),
                 ),
                 args=args,
-                keywords=[]
+                keywords=[],
             )
         )
 
