@@ -75,4 +75,10 @@ def insert_pensize_and_hideturtle(code, pen_size=5):
     tree = ast.parse(code)
     TurtleModifier(pen_size=pen_size).visit(tree)
     modified_code = astor.to_source(tree)
+    
+    # Replace turtle.done() calls with pass to prevent blocking
+    modified_code = modified_code.replace('turtle.done()', 'pass')
+    modified_code = modified_code.replace('turtle.done ()', 'pass')
+    modified_code = modified_code.replace('done()', 'pass')
+    
     return modified_code

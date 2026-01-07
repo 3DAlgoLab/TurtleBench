@@ -1,11 +1,17 @@
+# Ensure tracer is set properly after screen creation
+turtle.tracer(0, 0)
 turtle.update()
+
+# Get canvas and save using existing screen
 canvas = {screen_variable_name}.getcanvas()
 canvas.postscript(file='ps_file.ps', colormode='color')
-# Convert the PostScript file to PNG using ImageMagick
+
+# Convert PostScript file to JPEG
 jpg_file = os.path.join(f"{SAVE_DIR}", f"{task_name}.jpg")
-#subprocess.run(['magick', 'ps_file.ps', jpg_file])
 from PIL import Image
 img = Image.open('ps_file.ps')
 img.save(jpg_file, 'JPEG', quality=95)
+
+# Clean up
 {screen_variable_name}.bye()
 os.remove('ps_file.ps')

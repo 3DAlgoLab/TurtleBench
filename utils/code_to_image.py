@@ -14,7 +14,7 @@ def code_to_image(piece_of_code, task_name, save_path):
         return False
     try:
         svn = find_screen_variable_name(clean_code)
-    except:
+    except Exception:
         print("error on code:", f"{task_name}.txt")
         return False
     code = execute_combined_code(
@@ -22,8 +22,19 @@ def code_to_image(piece_of_code, task_name, save_path):
     )
     file_path = f"file_path_{task_name}.py"
     with open(file_path, "w") as file:
-        file.write(code)
-    completed_process = subprocess.run(["python", file_path])
+        file.write(code if code else "")
+    
+    # Ensure environment variables are passed to subprocess
+    env = os.environ.copy()
+    if 'DISPLAY' not in env:
+        env['DISPLAY'] = ':99'
+    
+    # Use uv run and pass environment
+    completed_process = subprocess.run(
+        ["uv", "run", "python", file_path], 
+        env=env,
+        timeout=20  # Add timeout to prevent hanging
+    )
     if completed_process.returncode == 0:
         os.remove(file_path)
         return True

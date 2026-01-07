@@ -4,4 +4,14 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = []
+dependencies = [
+    "pytest>=9.0.2",
+    "svg-turtle>=1.1.0",
+]
+
+[tool.ruff]
+# Ignore star import warnings
+ignore = ["F403", "F405"]
+
+[tool.pylint.messages_control]
+disable = ["wildcard-import", "unused-wildcard-import"]
