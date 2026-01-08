@@ -50,3 +50,6 @@ uritemplate>=4.1.1
 urllib3>=2.2.1
 zipp>=3.18.1
 replicate>=0.26.0
+dspy-ai>=3.1.0
+svg-turtle>=1.0.0
+cairosvg>=2.7.0

@@ -5,6 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "cairosvg>=2.8.2",
+    "pandas>=2.3.3",
     "pytest>=9.0.2",
     "svg-turtle>=1.1.0",
 ]

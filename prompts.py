@@ -83,7 +83,7 @@ system_prompts = {
 }
 
 scratch_instruct = "Write a code in Python Turtle that creates the exact same shape."
-library_loading = """\nimport turtle\nfrom math import *\nt = turtle.Turtle()\n"""
+library_loading = """\nfrom svg_turtle import SvgTurtle\nfrom math import *\nt = SvgTurtle(800, 600)\n"""
 
 
 user_prompts = {

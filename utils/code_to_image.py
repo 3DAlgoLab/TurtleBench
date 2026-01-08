@@ -3,14 +3,22 @@ import os
 import subprocess
 
 from utils.sandbox import execute_combined_code
+from utils.code_to_image_svg import code_to_image_svg
 
 
 def code_to_image(piece_of_code, task_name, save_path):
+    """Main function - try SVG turtle first, fallback to original turtle."""
+    
+    # Try SVG turtle first (headless compatible)
+    if code_to_image_svg(piece_of_code, task_name, save_path):
+        return True
+    
+    # Fallback to original turtle if SVG fails
+    print(f"SVG turtle failed for task {task_name}, trying original turtle")
     try:
         clean_code = insert_pensize_and_hideturtle(piece_of_code)
     except Exception as e:
         print(e, task_name)
-        clean_code = ""
         return False
     try:
         svn = find_screen_variable_name(clean_code)

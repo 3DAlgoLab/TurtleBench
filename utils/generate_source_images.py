@@ -6,7 +6,7 @@ import os
 
 def generate_image(variables, code, task_name):
     whole_code = (
-        """import turtle\nfrom math import *\nt = turtle.Turtle()\n"""
+        """from svg_turtle import SvgTurtle\nfrom math import *\nt = SvgTurtle(800, 600)\n"""
         + variables
         + "\n"
         + code
