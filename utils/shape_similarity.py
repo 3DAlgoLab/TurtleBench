@@ -1,8 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-import os
-
+from pathlib import Path
 
 def find_bounding_rect(image):
 
@@ -39,10 +38,15 @@ def compare_shapes(shape1, shape2):
 
 
 def calculate_accuracy(task_name, source_path, response_path):
-    image_path_source = os.path.join(source_path, task_name + ".jpg")
-    image_path_response = os.path.join(response_path, task_name + ".jpg")
+    
+    image_path_source = Path(source_path)/ (task_name + ".jpg")
+    image_path_response = Path(response_path)/ (task_name + ".jpg") 
+    
+    if not image_path_response.exists():
+        # check png 
+        image_path_response = Path(response_path)/ (task_name + ".png") 
 
-    assert os.path.exists(image_path_source) and os.path.exists(image_path_response)
+    assert image_path_source.exists() and image_path_response.exists()
 
     image1 = cv2.imread(image_path_source, cv2.IMREAD_GRAYSCALE)
     image2 = cv2.imread(image_path_response, cv2.IMREAD_GRAYSCALE)

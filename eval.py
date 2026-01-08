@@ -30,9 +30,7 @@ def construct_prompts(task, task_type, prompting_mode, modalities, task_mode):
         if task_type == "scratch":
             system_prompt = system_prompts[prompting_mode]["scratch"][modalities]
         elif task_type == "tweak":
-            system_prompt = system_prompts[prompting_mode]["tweak"][task_mode][
-                modalities
-            ]
+            system_prompt = system_prompts[prompting_mode]["tweak"][task_mode][modalities]
     except KeyError as e:
         raise InconsistentKeyError
 
@@ -112,7 +110,6 @@ def eval(
     code_framework="turtle",
     save_responses=False,
 ):
-
     tasks_config_path = "dataset.jsonl"
     config = []
     with open(tasks_config_path, "r") as file:
@@ -124,7 +121,7 @@ def eval(
         for conf in config:
             if conf["question_number"] == 1 and conf["description"] != None:
                 subset += [conf]
-    elif task_type == "scratch" and not "text" in modalities:
+    elif task_type == "scratch" and "text" not in modalities:
         subset = []
         for conf in config:
             if conf["question_number"] == 1:
