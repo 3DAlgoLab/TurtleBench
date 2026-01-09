@@ -1,1 +1,3 @@
 ,model_name,task_type,task_mode,modalities,prompting_mode,time,solved,accuracy
+0,lm_studio/zai-org/glm-4.6v-flash,scratch,code_generation,text_only,cot,09-01_1239,,
+1,lm_studio/zai-org/glm-4.6v-flash,scratch,code_generation,text_only,cot,09-01_1255,,

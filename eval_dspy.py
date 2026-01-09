@@ -37,12 +37,8 @@ class TurtleBenchDSPyAgent(dspy.Module):
 
         # Initialize DSPy with GPT model
         load_dotenv()        
-        # Use a vision-capable model for multimodal support
-        if "gpt4-v" in model_name or "gpt-4" in model_name:
-            vision_model = "openai/gpt-4o"  # Use GPT-4o for vision capabilities
-        else:
-            vision_model = model_name
-            
+        # Use a vision-capable model for multimodal support 
+        vision_model = model_name            
         self.lm = dspy.LM(model=vision_model)
         
         # Configure DSPy
@@ -73,27 +69,27 @@ class TurtleBenchDSPyAgent(dspy.Module):
                 raise ValueError(f"Unsupported task_type: {task_type}")
 
             # Get user prompt
-            user_prompt = ""
-            if task_type == "scratch":
-                user_prompt_template = user_prompts["scratch"][modalities]
-                user_prompt = user_prompt_template.format(
-                    description=task["description"],
-                    code=task["base_shape_code"],
-                    query=task["query"],
-                    variables=task["variables"],
-                )
-            elif task_type == "tweak":
-                user_prompt_template = user_prompts["tweak"][task_mode][modalities]
-                user_prompt = user_prompt_template.format(
-                    description=task["description"],
-                    code=task["base_shape_code"],
-                    query=task["query"],
-                    variables=task["variables"],
-                )
+            # user_prompt = ""
+            # if task_type == "scratch":
+            #     user_prompt_template = user_prompts["scratch"][modalities]
+            #     user_prompt = user_prompt_template.format(
+            #         description=task["description"],
+            #         code=task["base_shape_code"],
+            #         query=task["query"],
+            #         variables=task["variables"],
+            #     )
+            # elif task_type == "tweak":
+            #     user_prompt_template = user_prompts["tweak"][task_mode][modalities]
+            #     user_prompt = user_prompt_template.format(
+            #         description=task["description"],
+            #         code=task["base_shape_code"],
+            #         query=task["query"],
+            #         variables=task["variables"],
+            #     )
 
-            user_prompt += "\n" + user_prompt_final_piece.format(
-                variables=task["variables"]
-            )
+            # user_prompt += "\n" + user_prompt_final_piece.format(
+            #     variables=task["variables"]
+            # )
 
             # Handle watermarking for code_edit mode and load images for multimodal input
             base_image = None
@@ -196,7 +192,7 @@ def eval_dspy(
         subset = [
             conf
             for conf in config
-            if conf["question_number"] == 1 and conf["description"] != None
+            if conf["question_number"] == 1 and conf["description"] is not None
         ]
     elif task_type == "scratch" and "text" not in modalities:
         subset = [conf for conf in config if conf["question_number"] == 1]
@@ -349,4 +345,4 @@ if __name__ == "__main__":
         prompting_mode=args.prompting_mode,
         code_framework=args.code_framework,
         save_responses=args.save_responses,
-    )
+    )    

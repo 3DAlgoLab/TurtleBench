@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-import sys
-import os
-
-sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+# import sys
+# import os
+# sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from eval_dspy import eval_dspy
 
